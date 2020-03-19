@@ -19,5 +19,5 @@ resource "apigee_api_proxy" "proxy" {
 resource "apigee_api_proxy_deployment" "proxy_deployment" {
   proxy_name = apigee_api_proxy.proxy.name
   env = var.env
-  revision = "latest"
+  revision = apigee_api_proxy.proxy.revision
 }
