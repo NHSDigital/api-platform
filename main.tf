@@ -2,7 +2,6 @@ variable "org" {}
 variable "env" {}
 variable "user" {}
 variable "password" {}
-variable "proxy_type" { default = "live" }
 variable "ig3_url" { default = "" }
 variable "identity_url" { default = "" }
 
@@ -15,7 +14,7 @@ provider "apigee" {
 
 
 resource "apigee_target_server" "ig3" {
-  count = var.proxy_type == "live" ? 1 : 0
+  count = length(regexall("sandbox", var.env)) > 0 ? 1 : 0
 
   name = "ig3"
   host = var.ig3_url
@@ -26,8 +25,8 @@ resource "apigee_target_server" "ig3" {
   ssl_info {
     ssl_enabled = true
     client_auth_enabled = true
-    key_store = "${var.env}-keystore"
-    key_alias = "api.service.nhs.uk"
+    key_store = "keystore"
+    key_alias = "ig3"
     ignore_validation_errors = false
     ciphers = []
     protocols = []
@@ -36,7 +35,7 @@ resource "apigee_target_server" "ig3" {
 
 
 resource "apigee_target_server" "identity-server" {
-  count = var.proxy_type == "live" ? 1 : 0
+  count = length(regexall("sandbox", var.env)) > 0 ? 1 : 0
 
   name = "identity-server"
   host = var.identity_url
@@ -62,4 +61,3 @@ module "personal-demographics-service" {
   env = var.env
   proxy_type = var.proxy_type
 }
-
