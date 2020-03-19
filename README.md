@@ -14,7 +14,13 @@ APIGEE_PASSWORD="my-very-very-very-very-very-strong-password"
 ```
 
 #### Authenticating with token
-If you need MFA, you should authenticate and get a token using something like this:
+The env var for using a token is:
+```
+APIGEE_TOKEN=<access token goes here>
+```
+
+
+Get a token using something like this:
 ```
 $ curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" \
     -H "Accept: application/json;charset=utf-8" \
