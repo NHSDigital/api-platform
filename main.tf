@@ -14,7 +14,7 @@ provider "apigee" {
 
 
 resource "apigee_target_server" "ig3" {
-  count = length(regexall("sandbox", var.env)) > 0 ? 1 : 0
+  count = length(regexall("sandbox", var.env)) > 0 ? 0 : 1
 
   name = "ig3"
   host = var.ig3_url
@@ -35,7 +35,7 @@ resource "apigee_target_server" "ig3" {
 
 
 resource "apigee_target_server" "identity-server" {
-  count = length(regexall("sandbox", var.env)) > 0 ? 1 : 0
+  count = length(regexall("sandbox", var.env)) > 0 ? 0 : 1
 
   name = "identity-server"
   host = var.identity_url
@@ -59,5 +59,5 @@ module "personal-demographics-service" {
   name = "personal-demographics"
   path = "personal-demographics"
   env = var.env
-  proxy_type = length(regexall("sandbox", var.env)) > 0 ? "live" : "sandbox"
+  proxy_type = length(regexall("sandbox", var.env)) > 0 ? "sandbox" : "live"
 }
