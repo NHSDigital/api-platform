@@ -20,4 +20,6 @@ resource "apigee_api_proxy_deployment" "proxy_deployment" {
   proxy_name = apigee_api_proxy.proxy.name
   env = var.env
   revision = apigee_api_proxy.proxy.revision
+  override = true
+  delay = 60
 }
