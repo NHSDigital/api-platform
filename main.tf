@@ -1,11 +1,15 @@
 variable "org" {}
 variable "env" {}
+variable "username" {}
+variable "password" {}
 variable "ig3_url" { default = "" }
 variable "identity_url" { default = "" }
 
 
 provider "apigee" {
   org = var.org
+  user = var.username
+  password = var.password
 }
 
 
