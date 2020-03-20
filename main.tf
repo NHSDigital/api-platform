@@ -59,5 +59,5 @@ module "personal-demographics-service" {
   name = "personal-demographics"
   path = "personal-demographics"
   env = var.env
-  proxy_type = var.proxy_type
+  proxy_type = length(regexall("sandbox", var.env)) > 0 ? "live" : "sandbox"
 }
