@@ -20,11 +20,11 @@ resource "apigee_api_proxy_deployment" "proxy_deployment" {
   proxy_name = apigee_api_proxy.proxy.name
   env = var.env
   revision = apigee_api_proxy.proxy.revision
-  override = true
-  delay = 60
+  # override = true
+  # delay = 60
 }
 
-resource "apigee_api_product" "product" {
+resource "apigee_product" "product" {
   name = "${var.name}"
   approval_type = "auto"
   api_resources = ["/**"]
