@@ -53,11 +53,53 @@ class ApigeeClient:
             headers=self._auth_headers
         )
 
-    def update_spec_snapshot(self, portal_id):
-        pass
+    def get_apidocs(self, portal_id):
+        return requests.get(
+            f'https://apigee.com/portals/api/sites/{portal_id}/apidocs',
+            headers=self._auth_headers
+        )
 
-    def update_portal_permissions(self, portal_id):
-        pass
+
+    def create_portal_api(self, spec_name, spec_id, portal_id):
+        return requests.post(
+            f'https://apigee.com/portals/api/sites/{portal_id}/apidocs',
+            json={
+                "anonAllowed": True,
+                "description": "",
+                "edgeAPIProductName": spec_name,
+                "requireCallbackUrl": False,
+                "specContent": spec_id,
+                "specId": spec_name,
+                "title": spec_name,
+                "visibility": True
+            },
+            headers=self._auth_headers
+        )
+
+    def get_apidoc(self, portal_id, apidoc_id):
+        return requests.get(
+            f'https://apigee.com/portals/api/sites/{portal_id}/apidocs/{apidoc_id}',
+            headers=self._auth_headers
+        )
+
+    def update_spec_snapshot(self, portal_id, apidoc_id):
+        apidoc = self.get_apidoc(portal_id, apidoc_id).json()['data']
+
+        requests.put(
+            f'https://apigee.com/portals/api/sites/{portal_id}/apidocs/{apidoc_id}',
+            json={
+                "anonAllowed": True,
+                "description": apidoc['description'],
+                "specId": apidoc['specId'],
+                "visibility": True
+            },
+            headers=self._auth_headers
+        )
+
+        requests.put(
+            f'https://apigee.com/portals/api/sites/{portal_id}/apidocs/{apidoc_id}/snapshot',
+            headers=self._auth_headers
+        )
 
     @property
     def _auth_headers(self):
@@ -90,6 +132,12 @@ def upload_specs(specs_dir, client):
     folder_id = folder['id']
     existing_specs = {v['name']: v['id'] for v in folder['contents']}
 
+    # Figure out where the portal is
+    portal_id = client.get_portals().json()['data'][0]['id']
+    print(f'portal is {portal_id}')
+    portal_specs = {i['specId']: i for i in client.get_apidocs(portal_id).json()['data']}
+    print(f'grabbed apidocs')
+
     # Run through the list of local specs -- if it's on the portal, update it;
     # otherwise, add a new one
     for spec in local_specs:
@@ -108,6 +156,17 @@ def upload_specs(specs_dir, client):
         with open(os.path.join(specs_dir, spec), 'r') as f:
             response = client.update_spec(spec_id, f.read())
             print(f'{spec} updated')
+
+        print(f'checking if this spec is on the portal')
+        if spec_name in portal_specs:
+            print(f'{spec} is on the portal, updating')
+            apidoc_id = portal_specs[spec_name]['id']
+            client.update_spec_snapshot(portal_id, apidoc_id)
+        else:
+            print(f'{spec} is not on the portal, adding it')
+            client.create_portal_api(spec_name, spec_id, portal_id)
+
+    print('done.')
 
 
 if __name__ == "__main__":
