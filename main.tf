@@ -1,15 +1,13 @@
 variable "org" {}
 variable "env" {}
-variable "username" {}
-variable "password" {}
+variable "token" {}
 variable "ig3_url" { default = "" }
 variable "identity_url" { default = "" }
 
 
 provider "apigee" {
-  org      = var.org
-  user     = var.username
-  password = var.password
+  org          = var.org
+  access_token = var.token
 }
 
 terraform {
