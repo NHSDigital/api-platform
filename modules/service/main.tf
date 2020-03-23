@@ -1,4 +1,4 @@
-variable "env" {}
+variable "apigee_environment" {}
 variable "name" {}
 variable "path" {}
 variable "proxy_type" {}
@@ -11,14 +11,14 @@ data "archive_file" "bundle" {
 }
 
 resource "apigee_api_proxy" "proxy" {
-  name = "${var.name}-${var.env}"
+  name = "${var.name}-${var.apigee_environment}"
   bundle = data.archive_file.bundle.output_path
   bundle_sha = data.archive_file.bundle.output_sha
 }
 
 resource "apigee_api_proxy_deployment" "proxy_deployment" {
   proxy_name = "${apigee_api_proxy.proxy.name}"
-  env = var.env
+  env = var.apigee_environment
   revision = apigee_api_proxy.proxy.revision
   override = true
   delay = 60

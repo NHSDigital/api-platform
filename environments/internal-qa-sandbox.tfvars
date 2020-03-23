@@ -1,2 +1,2 @@
-env = "internal-qa-sandbox"
-org = "nhsd-nonprod"
+apigee_environment = "internal-qa-sandbox"
+apigee_organization = "nhsd-nonprod"

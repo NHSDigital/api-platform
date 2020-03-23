@@ -1,13 +1,13 @@
-variable "org" {}
-variable "env" {}
-variable "token" {}
+variable "apigee_organization" {}
+variable "apigee_environment" {}
+variable "apigee_token" {}
 variable "ig3_url" { default = "" }
 variable "identity_url" { default = "" }
 
 
 provider "apigee" {
-  org          = var.org
-  access_token = var.token
+  org          = var.apigee_organization
+  access_token = var.apigee_token
 }
 
 terraform {
@@ -21,11 +21,11 @@ terraform {
 
 
 resource "apigee_target_server" "ig3" {
-  count = length(regexall("sandbox", var.env)) > 0 ? 0 : 1
+  count = length(regexall("sandbox", var.apigee_environment)) > 0 ? 0 : 1
 
   name    = "ig3"
   host    = var.ig3_url
-  env     = var.env
+  env     = var.apigee_environment
   enabled = true
   port    = 443
 
@@ -42,11 +42,11 @@ resource "apigee_target_server" "ig3" {
 
 
 resource "apigee_target_server" "identity-server" {
-  count = length(regexall("sandbox", var.env)) > 0 ? 0 : 1
+  count = length(regexall("sandbox", var.apigee_environment)) > 0 ? 0 : 1
 
   name    = "identity-server"
   host    = var.identity_url
-  env     = var.env
+  env     = var.apigee_environment
   enabled = true
   port    = 443
 
@@ -65,6 +65,6 @@ module "personal-demographics-service" {
 
   name       = "personal-demographics"
   path       = "personal-demographics"
-  env        = var.env
-  proxy_type = length(regexall("sandbox", var.env)) > 0 ? "sandbox" : "live"
+  env        = var.apigee_environment
+  proxy_type = length(regexall("sandbox", var.apigee_environment)) > 0 ? "sandbox" : "live"
 }
