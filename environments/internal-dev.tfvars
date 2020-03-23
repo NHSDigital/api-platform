@@ -1,4 +1,4 @@
 env = "internal-dev"
 org = "nhsd-nonprod"
-ig3_url = "msg.devspineservices.nhs.uk"
+ig3_url = "veit07.devspineservices.nhs.uk"
 identity_url = "am.nhsspit-2.ptl.nhsd-esa.net"
