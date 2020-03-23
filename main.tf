@@ -10,6 +10,12 @@ provider "apigee" {
   org      = var.org
   user     = var.username
   password = var.password
+  # TODO: Pin version?
+}
+
+terraform {
+  backend "azurerm" {
+  }
 }
 
 
