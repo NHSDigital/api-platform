@@ -63,8 +63,8 @@ resource "apigee_target_server" "identity-server" {
 module "personal-demographics-service" {
   source = "./modules/service"
 
-  name       = "personal-demographics"
-  path       = "personal-demographics"
-  env        = var.apigee_environment
-  proxy_type = length(regexall("sandbox", var.apigee_environment)) > 0 ? "sandbox" : "live"
+  name               = "personal-demographics"
+  path               = "personal-demographics"
+  apigee_environment = var.apigee_environment
+  proxy_type         = length(regexall("sandbox", var.apigee_environment)) > 0 ? "sandbox" : "live"
 }
