@@ -11,13 +11,13 @@ data "archive_file" "bundle" {
 }
 
 resource "apigee_api_proxy" "proxy" {
-  name = var.name
+  name = "${var.name}-${var.env}"
   bundle = data.archive_file.bundle.output_path
   bundle_sha = data.archive_file.bundle.output_sha
 }
 
 resource "apigee_api_proxy_deployment" "proxy_deployment" {
-  proxy_name = apigee_api_proxy.proxy.name
+  proxy_name = "${apigee_api_proxy.proxy.name}-${var.env}"
   env = var.env
   revision = apigee_api_proxy.proxy.revision
   override = true
