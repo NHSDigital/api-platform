@@ -27,8 +27,7 @@ resource "apigee_api_proxy_deployment" "proxy_deployment" {
 resource "apigee_product" "product" {
   name = var.name
   approval_type = "auto"
-  api_resources = ["/**"]
-  proxies = [apigee_api_proxy.proxy.name]
+  api_resources = ["/personal-demographics/**"]
 
   attributes = {
     access = "public"
