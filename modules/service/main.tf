@@ -17,7 +17,7 @@ resource "apigee_api_proxy" "proxy" {
 }
 
 resource "apigee_api_proxy_deployment" "proxy_deployment" {
-  proxy_name = "${apigee_api_proxy.proxy.name}"
+  proxy_name = apigee_api_proxy.proxy.name
   env = var.apigee_environment
   revision = apigee_api_proxy.proxy.revision
   override = true
