@@ -25,11 +25,12 @@ resource "apigee_api_proxy_deployment" "proxy_deployment" {
 }
 
 resource "apigee_product" "product" {
-  name = var.name
+  name = "${var.name}-${var.apigee_environment}"
   approval_type = "auto"
-  api_resources = ["/personal-demographics/**"]
+  proxies = [apigee_api_proxy.proxy.name]
 
   attributes = {
     access = "public"
   }
+  environments = [var.apigee_environment]
 }
