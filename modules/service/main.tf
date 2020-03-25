@@ -26,7 +26,7 @@ resource "apigee_api_proxy_deployment" "proxy_deployment" {
 
 resource "apigee_product" "product" {
   name = "${var.name}-${var.apigee_environment}"
-  approval_type = "auto"
+  approval_type = length(regexall("prod|ref", var.apigee_environment)) > 0 ? "manual" : "auto"
   proxies = [apigee_api_proxy.proxy.name]
 
   attributes = {
