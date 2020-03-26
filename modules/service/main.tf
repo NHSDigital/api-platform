@@ -29,6 +29,11 @@ resource "apigee_product" "product" {
   approval_type = length(regexall("prod|ref", var.apigee_environment)) > 0 ? "manual" : "auto"
   proxies = [apigee_api_proxy.proxy.name]
 
+  # 5 transactions per second
+  quota = 5
+  quota_interval = 1
+  quota_time_unit = "second"
+
   attributes = {
     access = "public"
   }
