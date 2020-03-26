@@ -16,7 +16,14 @@ import os
 from docopt import docopt
 from apigee_client import ApigeeClient
 
-def upload_specs(specs_dir, client):
+
+ENV_NAMES = {
+    'prod': ['sandbox', 'dev', 'int', 'prod'],
+    'nonprod': ['internal-dev', 'internal-qa-sandbox', 'internal-qa']
+}
+
+
+def upload_specs(envs, specs_dir, client):
     # Grab a list of local specs
     local_specs = os.listdir(specs_dir)
 
@@ -50,14 +57,17 @@ def upload_specs(specs_dir, client):
             response = client.update_spec(spec_id, f.read())
             print(f'{spec} updated')
 
-        print(f'checking if this spec is on the portal')
-        if spec_name in portal_specs:
-            print(f'{spec} is on the portal, updating')
-            apidoc_id = portal_specs[spec_name]['id']
-            client.update_spec_snapshot(portal_id, apidoc_id)
-        else:
-            print(f'{spec} is not on the portal, adding it')
-            client.create_portal_api(spec_name, spec_id, portal_id)
+        # For this, sometimes the product refs change between deploys: instead of updating, delete the old one and recreate.
+        for env in envs:
+            print(f'checking if this spec is on the portal in {env}')
+            ns_spec_name = f'{spec_name}-{env}'
+            if ns_spec_name in portal_specs:
+                print(f'{ns_spec_name} is on the portal, updating')
+                apidoc_id = portal_specs[ns_spec_name]['id']
+                client.update_spec_snapshot(portal_id, apidoc_id)
+            else:
+                print(f'{ns_spec_name} is not on the portal, adding it')
+                client.create_portal_api(ns_spec_name, spec_id, portal_id)
 
     print('done.')
 
@@ -65,4 +75,4 @@ def upload_specs(specs_dir, client):
 if __name__ == "__main__":
     args = docopt(__doc__)
     client = ApigeeClient(args['<apigee_org>'], args['<username>'], args['<password>'])
-    upload_specs(args['<specs_dir>'], client)
+    upload_specs(ENV_NAMES[args['<apigee_org>']], args['<specs_dir>'], client)
