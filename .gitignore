@@ -38,3 +38,9 @@ releases/
 
 # Zipped proxies
 proxies/
+
+# Specs
+specs/
+
+# Pycache
+__pycache__/
