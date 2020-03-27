@@ -42,7 +42,7 @@ class ApigeeClient:
         )
 
 
-    def create_portal_api(self, spec_name, spec_id, portal_id):
+    def create_portal_api(self, friendly_name, spec_name, spec_id, portal_id):
         return requests.post(
             f'https://apigee.com/portals/api/sites/{portal_id}/apidocs',
             json={
@@ -52,7 +52,7 @@ class ApigeeClient:
                 "requireCallbackUrl": False,
                 "specContent": spec_id,
                 "specId": spec_name,
-                "title": spec_name,
+                "title": friendly_name,
                 "visibility": True
             },
             headers=self._auth_headers
@@ -130,4 +130,3 @@ class ApigeeClient:
         )
 
         return response.json()['access_token']
-

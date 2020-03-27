@@ -23,6 +23,26 @@ ENV_NAMES = {
     'nhsd-nonprod': ['internal-dev', 'internal-qa-sandbox', 'internal-qa', 'ref']
 }
 
+FRIENDLY_ENV_NAMES = {
+    'prod': '(Production)',
+    'int': '(Integration Testing)',
+    'dev': '(Development)',
+    'ref': '(Reference)',
+    'internal-qa': '(Internal QA)',
+    'internal-dev': '(Internal Develepment)'
+}
+
+FRIENDLY_API_NAMES = {
+    'personal-demographics': 'Personal Demographics Service API'
+}
+
+
+def to_friendly_name(spec_name, env):
+    friendly_env = FRIENDLY_ENV_NAMES.get(env, default=env)
+    friendly_api = FRIENDLY_ENV_NAMES.get(spec_name, default=spec_name.replace('-', ' ').title())
+
+    return f'{friendly_api} {friendly_env}'
+
 
 def upload_specs(envs, specs_dir, client):
     # Grab a list of local specs
@@ -70,7 +90,12 @@ def upload_specs(envs, specs_dir, client):
                 client.update_spec_snapshot(portal_id, apidoc_id)
             else:
                 print(f'{ns_spec_name} is not on the portal, adding it')
-                client.create_portal_api(ns_spec_name, spec_id, portal_id)
+                client.create_portal_api(
+                    to_friendly_name(spec_name, env),
+                    ns_spec_name,
+                    spec_id,
+                    portal_id
+                )
 
     print('done.')
 
