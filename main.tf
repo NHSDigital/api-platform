@@ -32,7 +32,7 @@ resource "apigee_target_server" "ig3" {
   ssl_info {
     ssl_enabled              = true
     client_auth_enabled      = true
-    key_store                = "ref://keystore"
+    key_store                = "ref://backends-keystore"
     key_alias                = "ig3"
     ignore_validation_errors = false
     ciphers                  = []
