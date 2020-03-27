@@ -4,7 +4,7 @@ import requests
 class ApigeeClient:
     def __init__(self, apigee_org, username, password, token):
         self.apigee_org = apigee_org
-        print("token exists: " + True if token else False)
+        print("token exists: " + str(True if token else False))
         self.access_token = (
             token if token else self._get_access_token(username, password)
         )
