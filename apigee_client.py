@@ -3,7 +3,7 @@ import requests
 class ApigeeClient:
     def __init__(self, apigee_org, username, password, token):
         self.apigee_org = apigee_org
-        self.access_token = token if token else self._get_access_token(username, password,)
+        self.access_token = token if token else self._get_access_token(username, password)
 
     def list_specs(self):
         return requests.get(
@@ -115,7 +115,7 @@ class ApigeeClient:
             'Authorization': f'Bearer {self.access_token}'
         }
 
-    def _get_access_token(self, username, password, token):
+    def _get_access_token(self, username, password):
         response = requests.post(
             'https://login.apigee.com/oauth/token',
             data={
