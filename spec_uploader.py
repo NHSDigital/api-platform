@@ -20,7 +20,7 @@ from apigee_client import ApigeeClient
 
 ENV_NAMES = {
     'nhsd-prod': ['sandbox', 'dev', 'int', 'prod'],
-    'nhsd-nonprod': ['internal-dev', 'internal-qa-sandbox', 'internal-qa']
+    'nhsd-nonprod': ['internal-dev', 'internal-qa-sandbox', 'internal-qa', 'ref']
 }
 
 
@@ -60,6 +60,8 @@ def upload_specs(envs, specs_dir, client):
 
         # For this, sometimes the product refs change between deploys: instead of updating, delete the old one and recreate.
         for env in envs:
+            if 'sandbox' in env: # we don't want to publish stuff for sandbox
+                continue
             print(f'checking if this spec is on the portal in {env}')
             ns_spec_name = f'{spec_name}-{env}'
             if ns_spec_name in portal_specs:
