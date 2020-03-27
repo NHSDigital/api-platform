@@ -102,6 +102,5 @@ def upload_specs(envs, specs_dir, client):
 
 if __name__ == "__main__":
     args = docopt(__doc__)
-    print("Token: " + args['<apigee_token>'])
     client = ApigeeClient(args['<apigee_org>'], args['<username>'], args['<password>'], args['<apigee_token>'])
     upload_specs(ENV_NAMES[args['<apigee_org>']], args['<specs_dir>'], client)
