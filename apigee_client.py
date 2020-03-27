@@ -1,9 +1,9 @@
 import requests
 
 class ApigeeClient:
-    def __init__(self, apigee_org, username, password):
+    def __init__(self, apigee_org, username, password, token):
         self.apigee_org = apigee_org
-        self.access_token = self._get_access_token(username, password)
+        self.access_token = self._set_access_token(token)
 
     def list_specs(self):
         return requests.get(
@@ -115,7 +115,7 @@ class ApigeeClient:
             'Authorization': f'Bearer {self.access_token}'
         }
 
-    def _get_access_token(self, username, password):
+    def _get_access_token(self, username, password, token):
         response = requests.post(
             'https://login.apigee.com/oauth/token',
             data={
@@ -125,8 +125,11 @@ class ApigeeClient:
             },
             headers={
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ZWRnZWNsaTplZGdlY2xpc2VjcmV0'
+                'Authorization': 'Bearer' + token
             }
         )
 
         return response.json()['access_token']
+
+    def _set_access_token(self, token):
+        return token if token else self._get_access_token()

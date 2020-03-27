@@ -4,13 +4,14 @@ spec_uploader.py
 A tool for uploading apigee specs
 
 Usage:
-  spec_uploader.py <apigee_org> <specs_dir> -u <username> -p <password>
+  spec_uploader.py <apigee_org> <specs_dir> -u <username> -p <password> [-t <apigee_token>]
   spec_uploader.py (-h | --help)
 
 Options:
   -h --help  Show this screen
   -u         Which username to log in with
   -p         Password for login
+  -t         Access Token from apigee
 """
 import os
 from docopt import docopt
@@ -74,5 +75,5 @@ def upload_specs(envs, specs_dir, client):
 
 if __name__ == "__main__":
     args = docopt(__doc__)
-    client = ApigeeClient(args['<apigee_org>'], args['<username>'], args['<password>'])
+    client = ApigeeClient(args['<apigee_org>'], args['<username>'], args['<password>'], args['<apigee_token>'])
     upload_specs(ENV_NAMES[args['<apigee_org>']], args['<specs_dir>'], client)
