@@ -29,7 +29,7 @@ FRIENDLY_ENV_NAMES = {
     'dev': '(Development)',
     'ref': '(Reference)',
     'internal-qa': '(Internal QA)',
-    'internal-dev': '(Internal Develepment)'
+    'internal-dev': '(Internal Development)'
 }
 
 FRIENDLY_API_NAMES = {
