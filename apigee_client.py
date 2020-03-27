@@ -3,7 +3,7 @@ import requests
 class ApigeeClient:
     def __init__(self, apigee_org, username, password, token):
         self.apigee_org = apigee_org
-        self.access_token = self._set_access_token(token)
+        self.access_token = token if token else self._get_access_token(username, password,)
 
     def list_specs(self):
         return requests.get(
@@ -125,11 +125,9 @@ class ApigeeClient:
             },
             headers={
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Bearer' + token
+                'Authorization': 'Basic ZWRnZWNsaTplZGdlY2xpc2VjcmV0'
             }
         )
 
         return response.json()['access_token']
 
-    def _set_access_token(self, token):
-        return token if token else self._get_access_token()
