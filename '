@@ -1,0 +1,15 @@
+## dd
+APM-490 Do not publish sandbox as a portal product
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Fri Mar 27 09:11:47 2020 +0000
+#
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   spec_uploader.py
+#

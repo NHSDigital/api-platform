@@ -61,7 +61,7 @@ resource "apigee_target_server" "identity-server" {
 
 
 module "personal-demographics-service" {
-  source = "./modules/service"
+  source = "github.com/NHSDigital/api-platform-service-module"
 
   name               = "personal-demographics"
   path               = "personal-demographics"
