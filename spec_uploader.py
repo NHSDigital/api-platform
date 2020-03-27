@@ -38,8 +38,8 @@ FRIENDLY_API_NAMES = {
 
 
 def to_friendly_name(spec_name, env):
-    friendly_env = FRIENDLY_ENV_NAMES.get(env, default=env)
-    friendly_api = FRIENDLY_ENV_NAMES.get(spec_name, default=spec_name.replace('-', ' ').title())
+    friendly_env = FRIENDLY_ENV_NAMES.get(env, env)
+    friendly_api = FRIENDLY_ENV_NAMES.get(spec_name, spec_name.replace('-', ' ').title())
 
     return f'{friendly_api} {friendly_env}'
 
