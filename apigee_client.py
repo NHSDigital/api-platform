@@ -47,7 +47,23 @@ class ApigeeClient:
                 "anonAllowed": True,
                 "description": "",
                 "edgeAPIProductName": spec_name,
-                "requireCallbackUrl": False,
+                "requireCallbackUrl": True,
+                "specContent": spec_id,
+                "specId": spec_name,
+                "title": friendly_name,
+                "visibility": True,
+            },
+            headers=self._auth_headers,
+        )
+
+    def update_portal_api(self, apidoc_id, friendly_name, spec_name, spec_id, portal_id):
+        return requests.put(
+            f"https://apigee.com/portals/api/sites/{portal_id}/apidocs/{apidoc_id}",
+            json={
+                "anonAllowed": True,
+                "description": "",
+                "edgeAPIProductName": spec_name,
+                "requireCallbackUrl": True,
                 "specContent": spec_id,
                 "specId": spec_name,
                 "title": friendly_name,

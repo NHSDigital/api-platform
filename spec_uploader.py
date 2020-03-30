@@ -87,6 +87,13 @@ def upload_specs(envs, specs_dir, client):
             if ns_spec_name in portal_specs:
                 print(f'{ns_spec_name} is on the portal, updating')
                 apidoc_id = portal_specs[ns_spec_name]['id']
+                client.update_portal_api(
+                    apidoc_id,
+                    to_friendly_name(spec_name, env),
+                    ns_spec_name,
+                    spec_id,
+                    portal_id
+                )
                 client.update_spec_snapshot(portal_id, apidoc_id)
             else:
                 print(f'{ns_spec_name} is not on the portal, adding it')
