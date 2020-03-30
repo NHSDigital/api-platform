@@ -32,6 +32,8 @@ and take the access token from the response.
 
 
 Instead, you can use the Apigee-supplied [`get_token`](https://docs.apigee.com/api-platform/system-administration/using-gettoken):
+
+Authenticating with Multi-Factor Authentication:
 ```
 $ get_token -u my_username1@nhs.net:my-very-strong-password -m 123456
 ```
