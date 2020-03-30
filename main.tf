@@ -21,8 +21,7 @@ terraform {
 
 
 resource "apigee_target_server" "ig3" {
-  count = length(regexall("sandbox", var.apigee_environment)) > 0 ? 0 : 1
-
+  count   = length(regexall("sandbox", var.apigee_environment)) > 0 ? 0 : 1
   name    = "ig3"
   host    = var.ig3_url
   env     = var.apigee_environment
@@ -42,6 +41,7 @@ resource "apigee_target_server" "ig3" {
 
 
 resource "apigee_target_server" "identity-server" {
+  count   = length(regexall("sandbox", var.apigee_environment)) > 0 ? 0 : 1
   name    = "identity-server"
   host    = var.identity_url
   env     = var.apigee_environment
@@ -59,8 +59,7 @@ resource "apigee_target_server" "identity-server" {
 
 
 module "personal-demographics-service" {
-  source = "github.com/NHSDigital/api-platform-service-module"
-
+  source             = "github.com/NHSDigital/api-platform-service-module"
   name               = "personal-demographics"
   path               = "personal-demographics"
   apigee_environment = var.apigee_environment
