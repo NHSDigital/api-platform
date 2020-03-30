@@ -92,10 +92,12 @@ class ApigeeClient:
             headers=self._auth_headers,
         )
 
-        requests.put(
+        response = requests.put(
             f"https://apigee.com/portals/api/sites/{portal_id}/apidocs/{apidoc_id}/snapshot",
             headers=self._auth_headers,
         )
+        print(f'Update date snapshot response code: {response.status_code}')
+        print(f'Response: {response.json()}')
 
     def list_keystores(self, environment):
         return requests.get(
