@@ -43,7 +43,8 @@ jobs:
           tar -xzf ~/.terraform.d/plugins/terraform.tar.gz -C ~/.terraform.d/plugins
           ls ~/.terraform.d/plugins
 
+      - name: Initialise Terraform
+        run: terraform init -backend=false
+
       - name: Validate Terraform Files
-        run: |
-          terraform init -backend=false
-          terraform validate
+        run: terraform validate
