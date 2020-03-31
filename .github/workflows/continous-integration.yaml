@@ -28,4 +28,4 @@ jobs:
           key: ${{ runner.os }}-build-cache-poetry-packages-${{ hashFiles('**/poetry.lock') }}
 
       - name: Lint python
-        run: cd ./api-platform && poetry run flake8 *.py
+        run: ls && poetry run flake8 *.py
