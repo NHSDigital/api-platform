@@ -37,4 +37,4 @@ jobs:
         uses: little-core-labs/install-terraform@v1
 
       - name: Validate Terraform Files
-        uses: terraform validate
+        run: terraform validate
