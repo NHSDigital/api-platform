@@ -36,6 +36,16 @@ jobs:
       - name: Install Terraform
         uses: little-core-labs/install-terraform@v1
 
+      - name: Install Apigee Provider
+        run: |
+          mkdir -p ~/terraform-providers
+          curl -L https://github.com/zambien/terraform-provider-apigee/releases/download/v0.0.7/terraform-provider-apigee-v0.0.7-linux64 -o ~/terraform-providers/terraform-provider-apigee-v0.0.7-linux64
+          cat << EOF > ~/.terraformrc
+          providers {
+              apigee = "$HOME/terraform-providers/terraform-provider-apigee-v0.0.7-linux64"
+          }
+          EOF
+
       - name: Validate Terraform Files
         run: |
           terraform init -backend=false
