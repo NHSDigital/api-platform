@@ -1,10 +1,10 @@
-name: Build
+name: Lint
 
 on: push
 
 jobs:
   build:
-    name: build
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,4 +28,4 @@ jobs:
           key: ${{ runner.os }}-build-cache-poetry-packages-${{ hashFiles('**/poetry.lock') }}
 
       - name: Lint python
-        run: poetry run flake8 **/*.py
+        run: cd ./api-platform && poetry run flake8 *.py
