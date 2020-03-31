@@ -32,3 +32,9 @@ jobs:
 
       - name: Lint python
         run: poetry run flake8 **/*.py
+
+      - name: Install Terraform
+        uses: little-core-labs/install-terraform@v1
+
+      - name: Validate Terraform Files
+        uses: terraform validate
