@@ -27,5 +27,8 @@ jobs:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-build-cache-poetry-packages-${{ hashFiles('**/poetry.lock') }}
 
+      - name: Install poetry packages
+        run: poetry install
+
       - name: Lint python
-        run: ls && poetry run flake8 *.py
+        run: poetry run flake8 **/*.py
