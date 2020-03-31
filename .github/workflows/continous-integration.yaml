@@ -38,13 +38,10 @@ jobs:
 
       - name: Install Apigee Provider
         run: |
-          mkdir -p ~/terraform-providers
-          curl -L https://github.com/zambien/terraform-provider-apigee/releases/download/v0.0.7/terraform-provider-apigee-v0.0.7-linux64 -o ~/terraform-providers/terraform-provider-apigee-v0.0.7-linux64
-          cat << EOF > ~/.terraformrc
-          providers {
-              apigee = "$HOME/terraform-providers/terraform-provider-apigee-v0.0.7-linux64"
-          }
-          EOF
+          mkdir -p ~/.terraform.d/plugins
+          wget https://github.com/zambien/terraform-provider-apigee/releases/download/v0.0.21/terraform-provider-apigee_0.0.21_linux_amd64.tar.gz -O ~/.terraform.d/plugins/terraform.tar.gz
+          tar -xzf ~/.terraform.d/plugins/terraform.tar.gz -C ~/.terraform.d/plugins
+          ls ~/.terraform.d/plugins
 
       - name: Validate Terraform Files
         run: |
