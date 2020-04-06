@@ -20,7 +20,7 @@ variable "ig3_url" {
 }
 
 variable "identity_url" {
-  tpye = string
+  type = string
   description = "URL of NHSD ID service for this env."
   default = ""
 }
