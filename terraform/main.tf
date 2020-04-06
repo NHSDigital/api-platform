@@ -1,10 +1,3 @@
-variable "apigee_organization" {}
-variable "apigee_environment" {}
-variable "apigee_token" {}
-variable "ig3_url" { default = "" }
-variable "identity_url" { default = "" }
-
-
 provider "apigee" {
   org          = var.apigee_organization
   access_token = var.apigee_token
@@ -55,13 +48,4 @@ resource "apigee_target_server" "identity-server" {
     ciphers                  = []
     protocols                = []
   }
-}
-
-
-module "personal-demographics-service" {
-  source             = "github.com/NHSDigital/api-platform-service-module"
-  name               = "personal-demographics"
-  path               = "personal-demographics"
-  apigee_environment = var.apigee_environment
-  proxy_type         = length(regexall("sandbox", var.apigee_environment)) > 0 ? "sandbox" : "live"
 }
