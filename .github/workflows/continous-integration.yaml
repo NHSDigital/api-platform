@@ -33,18 +33,32 @@ jobs:
       - name: Lint python
         run: poetry run flake8 **/*.py
 
-      - name: Install Terraform
-        uses: little-core-labs/install-terraform@v1
+      # - name: Install Terraform
+      #   uses: little-core-labs/install-terraform@v1
 
-      - name: Install Apigee Provider
-        run: |
-          mkdir -p ~/.terraform.d/plugins
-          wget https://github.com/zambien/terraform-provider-apigee/releases/download/v0.0.21/terraform-provider-apigee_0.0.21_linux_amd64.tar.gz -O ~/.terraform.d/plugins/terraform.tar.gz
-          tar -xzf ~/.terraform.d/plugins/terraform.tar.gz -C ~/.terraform.d/plugins
-          ls ~/.terraform.d/plugins
+      # - name: Install Apigee Provider
+      #   run: |
+      #     mkdir -p ~/.terraform.d/plugins
+      #     wget https://github.com/zambien/terraform-provider-apigee/releases/download/v0.0.21/terraform-provider-apigee_0.0.21_linux_amd64.tar.gz -O ~/.terraform.d/plugins/terraform.tar.gz
+      #     tar -xzf ~/.terraform.d/plugins/terraform.tar.gz -C ~/.terraform.d/plugins
+      #     ls ~/.terraform.d/plugins
 
-      - name: Initialise Terraform
-        run: terraform init -backend=false
+      # - name: Initialise Terraform
+      #   run: terraform init -backend=false
 
-      - name: Validate Terraform Files
-        run: terraform validate
+      # - name: Validate Terraform Files
+      #   run: terraform validate
+
+      - name: Set SPEC_VERSION env var
+        run: echo ::set-env name=SPEC_VERSION::$(poetry run python scripts/calculate_version.py)
+
+      - name: Create release (master only)
+        id: create-release
+        if: github.ref == 'refs/heads/master'
+        uses: actions/create-release@v1
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.SPEC_VERSION }}
+          release_name: ${{ env.SPEC_VERSION }}
