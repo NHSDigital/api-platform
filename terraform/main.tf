@@ -85,7 +85,7 @@ resource "apigee_developer" "internal_testing" {
 resource "apigee_developer_app" "internal_testing" {
   count   = length(regexall("sandbox|prod", var.apigee_environment)) > 0 ? 0 : 1
   name = "internal-testing-${var.apigee_environment}"
-  developer_email = apigee_developer.internal_testing.email
-  api_products = [apigee_product.internal_testing.name]
+  developer_email = apigee_developer.internal_testing[count.index].email
+  api_products = [apigee_product.internal_testing[count.index].name]
   callback_url = "https://nhsd-apim-testing-${var.apigee_environment}.herokuapp.com/callback"
 }
