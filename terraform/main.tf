@@ -65,8 +65,13 @@ resource "apigee_product" "internal_testing" {
   api_resources = ["/**"]                 # Allows access to everything...
   environments = [var.apigee_environment] # ...in this environment
 
+  quota = 60000 # 1000ps
+  quota_interval = 1
+  quota_time_unit = "minute"
+
   attributes = {
     access = "internal"
+    ratelimit = 1000ps # Allow up to 1000ps
   }
 }
 
