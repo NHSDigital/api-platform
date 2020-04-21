@@ -70,7 +70,7 @@ resource "apigee_product" "internal_testing" {
   quota_time_unit = "minute"
 
   attributes = {
-    access = "internal"
+    access = "internal",
     ratelimit = 1000ps # Allow up to 1000ps
   }
 }
