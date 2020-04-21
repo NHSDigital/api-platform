@@ -71,7 +71,7 @@ resource "apigee_product" "internal_testing" {
 
   attributes = {
     access = "internal",
-    ratelimit = 1000ps # Allow up to 1000ps
+    ratelimit = "1000ps" # Allow up to 1000ps
   }
 }
 
