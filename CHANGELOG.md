@@ -1,3 +1,6 @@
+# 2020-04-30
+* Add internal testing product/app to Sandbox environments too
+
 # 2020-03-31
 * Add dependabot to the repository
 
