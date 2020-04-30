@@ -50,14 +50,14 @@ resource "apigee_target_server" "identity-server" {
 }
 
 
-# For environments except production (don't want it) and sandbox (don't need it)
+# For environments except production
 # Create, for *internal testing purposes only*:
 #  * Internal (hidden) API Product allowing access to everything in the environment
 #  * A developer Application subscribed to this product
 # Both named `internal-testing-<environment>`
 
 resource "apigee_product" "internal_testing" {
-  count   = length(regexall("sandbox|prod", var.apigee_environment)) > 0 ? 0 : 1
+  count   = length(regexall("prod", var.apigee_environment)) > 0 ? 0 : 1
   name = "internal-testing-${var.apigee_environment}"
   display_name = "internal-testing (${var.apigee_environment})"
   description = "For internal testing purposes only. Customers should NOT be subscribed to this product."
@@ -76,7 +76,7 @@ resource "apigee_product" "internal_testing" {
 }
 
 resource "apigee_developer" "internal_testing" {
-  count   = length(regexall("sandbox|prod", var.apigee_environment)) > 0 ? 0 : 1
+  count   = length(regexall("prod", var.apigee_environment)) > 0 ? 0 : 1
   email = "apm-testing-${var.apigee_environment}@nhs.net"
   first_name = "Testing"
   last_name = "User"
@@ -88,7 +88,7 @@ resource "apigee_developer" "internal_testing" {
 }
 
 resource "apigee_developer_app" "internal_testing" {
-  count   = length(regexall("sandbox|prod", var.apigee_environment)) > 0 ? 0 : 1
+  count   = length(regexall("prod", var.apigee_environment)) > 0 ? 0 : 1
   name = "internal-testing-${var.apigee_environment}"
   developer_email = length(apigee_developer.internal_testing) > 0 ? apigee_developer.internal_testing[count.index].email : ""
   api_products = [length(apigee_product.internal_testing) > 0 ? apigee_product.internal_testing[count.index].name : "."]
