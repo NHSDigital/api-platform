@@ -62,7 +62,7 @@ resource "apigee_product" "internal_testing" {
   display_name = "internal-testing (${var.apigee_environment})"
   description = "For internal testing purposes only. Customers should NOT be subscribed to this product."
   approval_type = "manual"
-  api_resources = ["/**"]                 # Allows access to everything...
+  api_resources = ["/", "/**", "/*/"]     # Allows access to everything...
   environments = [var.apigee_environment] # ...in this environment
 
   quota = 60000 # 1000ps
